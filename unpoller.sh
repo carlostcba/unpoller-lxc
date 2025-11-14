@@ -11,11 +11,17 @@ source <(curl -fsSL https://git.community-scripts.org/community-scripts/ProxmoxV
 APP="Unpoller Prom"
 var_tags="${var_tags:-monitoring,unifi,prometheus}"
 var_cpu="${var_cpu:-1}"
-var_ram="${var_ram:-1024}" # Reducido ya que no hay Grafana
-var_disk="${var_disk:-4}"  # Reducido ya que InfluxDB consume mucho disco y aquí no está
+var_ram="${var_ram:-1024}"
+var_disk="${var_disk:-4}"
 var_os="${var_os:-debian}"
 var_version="${var_version:-12}"
 var_unprivileged="${var_unprivileged:-1}"
+
+# --- FIX: Override para evitar que busque el script oficial ---
+function configure_container() {
+  return
+}
+# --------------------------------------------------------------
 
 header_info "$APP"
 variables
@@ -118,7 +124,7 @@ report_errors = true
 [unifi.defaults]
 url = "https://192.168.1.10"   # IMPORTANTE: Cambia esto a la IP de tu CloudKey/Controller
 user = "unifipoller"
-pass = "@LaSalle2599"     # IMPORTANTE: Pon aquí tu contraseña real
+pass = "CAMBIAME_PASSWORD"     # IMPORTANTE: Pon aquí tu contraseña real
 sites = ["all"]
 verify_ssl = false
 save_ids = true
